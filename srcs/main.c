@@ -6,33 +6,53 @@
 /*   By: mbucci <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 12:16:17 by mbucci            #+#    #+#             */
-/*   Updated: 2022/01/05 16:12:28 by mbucci           ###   ########.fr       */
+/*   Updated: 2022/01/06 13:16:13 by mbucci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-t_philo	*check_args(int ac, char **args)
+t_data	*check_args(int ac, char **args)
 {
-	t_philo	*env;
+	t_data	*env;
 
-	env = (t_philo *)malloc(sizeof(t_philo));
+	env = (t_data *)malloc(sizeof(t_data));
 	if (!env)
 		exit(EXIT_FAILURE);
-	env->philos = ft_atoi(args[1], env);
-	env->t_die = ft_atoi(args[2], env);
-	env->t_eat = ft_atoi(args[3], env);
-	env->t_sleep = ft_atoi(args[4], env);
+	env->nbr = ft_atoi(args[1], env);
+	env->time_die = ft_atoi(args[2], env);
+	env->time_eat = ft_atoi(args[3], env);
+	env->time_sleep = ft_atoi(args[4], env);
 	if (ac == 6)
 		env->cycles = ft_atoi(args[5], env);
 	return (env);
 }
 
+t_philo	*init_philos(t_data *env)
+{
+	t_philo	*philos;
+	int		i;
+
+	i = -1;
+	philos = (t_philo *)malloc(sizeof(t_philo) * env->nbr);
+	if (!philos)
+		free_error(env);
+	while (++i < env->nbr)
+	{
+		philos[i].id = i + 1;
+		philos[i].str_id = ft_itoa(philos[i].id);
+		pthread_mutex_init(&(philos[i].eat), NULL);
+		pthread_mutex_init(&(philos[i].write), NULL);
+	}
+	return (philos);
+}
+
 int	main(int ac, char **av)
 {
-	t_philo	*env;
+	t_data	*env;
 
 	if (ac < 5)
 		return (0);
 	env = check_args(ac, av);
+	env->philos = init_philos(env);
 }
