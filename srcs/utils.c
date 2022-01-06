@@ -6,7 +6,7 @@
 /*   By: mbucci <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 12:50:57 by mbucci            #+#    #+#             */
-/*   Updated: 2022/01/06 12:54:29 by mbucci           ###   ########.fr       */
+/*   Updated: 2022/01/06 13:57:56 by mbucci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,20 @@ void	free_error(t_data *env)
 	free(env);
 	env = NULL;
 	exit(EXIT_FAILURE);
+}
+
+void	free_all(t_data *env, t_philo *philos)
+{
+	int	i;
+
+	i = -1;
+	while (++i < env->nbr)
+	{
+		free(env->philos[i].str_id);
+		env->philos[i].id_str = NULL;
+		free(env->philos[i]);
+		free(env->forks[i]);
+	}
 }
 
 int	ft_atoi(char *s, t_data *env)
