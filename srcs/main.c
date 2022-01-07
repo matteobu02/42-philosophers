@@ -6,7 +6,7 @@
 /*   By: mbucci <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 12:16:17 by mbucci            #+#    #+#             */
-/*   Updated: 2022/01/06 13:16:13 by mbucci           ###   ########.fr       */
+/*   Updated: 2022/01/07 17:30:21 by mbucci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,26 +25,9 @@ t_data	*check_args(int ac, char **args)
 	env->time_sleep = ft_atoi(args[4], env);
 	if (ac == 6)
 		env->cycles = ft_atoi(args[5], env);
+	else
+		env->cycles = 0;
 	return (env);
-}
-
-t_philo	*init_philos(t_data *env)
-{
-	t_philo	*philos;
-	int		i;
-
-	i = -1;
-	philos = (t_philo *)malloc(sizeof(t_philo) * env->nbr);
-	if (!philos)
-		free_error(env);
-	while (++i < env->nbr)
-	{
-		philos[i].id = i + 1;
-		philos[i].str_id = ft_itoa(philos[i].id);
-		pthread_mutex_init(&(philos[i].eat), NULL);
-		pthread_mutex_init(&(philos[i].write), NULL);
-	}
-	return (philos);
 }
 
 int	main(int ac, char **av)
@@ -54,5 +37,4 @@ int	main(int ac, char **av)
 	if (ac < 5)
 		return (0);
 	env = check_args(ac, av);
-	env->philos = init_philos(env);
 }

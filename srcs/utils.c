@@ -6,7 +6,7 @@
 /*   By: mbucci <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 12:50:57 by mbucci            #+#    #+#             */
-/*   Updated: 2022/01/06 13:57:56 by mbucci           ###   ########.fr       */
+/*   Updated: 2022/01/07 16:58:47 by mbucci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	get_len_int(unsigned long n)
 	return (ret);
 }
 
-char	*ft_itoa(unsigned long n)
+char	*ft_itoa(unsigned long n, t_data *env)
 {
 	char	*s;
 	int		len;
@@ -80,7 +80,7 @@ char	*ft_itoa(unsigned long n)
 	len = get_len_int(n);
 	s = (char *)malloc(len + 1);
 	if (!s)
-		return (NULL);
+		free_error(env);
 	s[len--] = 0;
 	while (n)
 	{
