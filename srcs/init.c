@@ -6,7 +6,7 @@
 /*   By: mbucci <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 19:15:06 by mbucci            #+#    #+#             */
-/*   Updated: 2022/01/07 17:29:13 by mbucci           ###   ########.fr       */
+/*   Updated: 2022/01/07 23:57:47 by mbucci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	init_philos(t_data *env)
 		phi[i].id = i + 1;
 		phi[i].str_id = ft_itoa(i + 1, env);
 		phi[i].rfork = &(env->forks[i]);
+		phi[i].env = env;
 		if (!i)
 			phi[i].lfork = &(env->forks[env->nbr]);
 		else
@@ -53,13 +54,29 @@ void	init_philos(t_data *env)
 	}
 }
 
-void	init_threads(t_data *env)
+void	*start_routine(void *param)
+{
+	t_philo	*philo;
+
+	philo = (t_philo *)param;
+	printf("%d created", philo->id);
+	sleep(1);
+	printf("good bye\n");
+	return (NULL);
+}
+
+void	manage_threads(t_data *env)
 {
 	int	i;
 
 	i = -1;
 	while (++i < env->nbr)
 		if (pthread_create(&(env->philos[i].thread_id),
-				NULL, start_routine, (void *)env) != 0)
+				NULL, &start_routine, &(env->philos[i])) != 0)
+			free_error(env);
+	printf("done\n");
+	i = -1;
+	while (++i < env->nbr)
+		if (pthread_join(env->philos[i].thread_id, NULL))
 			free_error(env);
 }

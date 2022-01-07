@@ -1,6 +1,7 @@
 NAME	=	philo
 
-SRCS	=	srcs/main.c		\
+SRCS	=	srcs/init.c		\
+			srcs/main.c		\
 			srcs/utils.c
 
 

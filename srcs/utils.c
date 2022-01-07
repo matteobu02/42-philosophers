@@ -6,7 +6,7 @@
 /*   By: mbucci <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 12:50:57 by mbucci            #+#    #+#             */
-/*   Updated: 2022/01/07 16:58:47 by mbucci           ###   ########.fr       */
+/*   Updated: 2022/01/07 23:43:17 by mbucci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	free_error(t_data *env)
 	exit(EXIT_FAILURE);
 }
 
-void	free_all(t_data *env, t_philo *philos)
+void	free_all(t_data *env)
 {
 	int	i;
 
@@ -27,9 +27,9 @@ void	free_all(t_data *env, t_philo *philos)
 	while (++i < env->nbr)
 	{
 		free(env->philos[i].str_id);
-		env->philos[i].id_str = NULL;
-		free(env->philos[i]);
-		free(env->forks[i]);
+		env->philos[i].str_id = NULL;
+		free(env->philos);
+		free(env->forks);
 	}
 }
 

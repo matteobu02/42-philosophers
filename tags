@@ -1,0 +1,28 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+CC	Makefile	/^CC		=	gcc$/;"	m
+CFLAGS	Makefile	/^CFLAGS	=	-Wall -Wextra -Werror -pthread -g -fsanitize=thread$/;"	m
+NAME	Makefile	/^NAME	=	philo$/;"	m
+OBJS	Makefile	/^OBJS	=	$(SRCS:.c=.o)$/;"	m
+PHILO_H	srcs/philo.h	14;"	d
+SRCS	Makefile	/^SRCS	=	srcs\/main.c		\\$/;"	m
+check_args	srcs/main.c	/^t_philo	*check_args(int ac, char **args)$/;"	f
+cycles	srcs/philo.h	/^	int	cycles;$/;"	m	struct:s_data
+fork1	srcs/philo.h	/^	pthreak_mutex_t	fork1;$/;"	m	struct:s_philos
+free_error	srcs/utils.c	/^void	free_error(t_data *env)$/;"	f
+ft_atoi	srcs/utils.c	/^int	ft_atoi(char *s, t_data *env)$/;"	f
+init_philos	srcs/init.c	/^t_philo	*init_philos(t_data *env)$/;"	f
+main	srcs/main.c	/^int	main(int ac, char **av)$/;"	f
+nbr	srcs/philo.h	/^	int	nbr;$/;"	m	struct:s_data
+s_data	srcs/philo.h	/^typedef struct	s_data$/;"	s
+s_philos	srcs/philo.h	/^typedef struct	s_philos$/;"	s
+t_data	srcs/philo.h	/^}	t_data;$/;"	t	typeref:struct:s_data
+t_die	srcs/philo.h	/^	int	t_die;$/;"	m	struct:s_data
+t_eat	srcs/philo.h	/^	int	t_eat;$/;"	m	struct:s_data
+t_id	srcs/philo.h	/^	pthread_t		t_id;$/;"	m	struct:s_philos
+t_philo	srcs/philo.h	/^}	t_philo;$/;"	t	typeref:struct:s_philos
+t_sleep	srcs/philo.h	/^	int	t_sleep;$/;"	m	struct:s_data

@@ -6,7 +6,7 @@
 /*   By: mbucci <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 12:16:17 by mbucci            #+#    #+#             */
-/*   Updated: 2022/01/07 17:30:21 by mbucci           ###   ########.fr       */
+/*   Updated: 2022/01/07 23:55:03 by mbucci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,8 @@ int	main(int ac, char **av)
 	if (ac < 5)
 		return (0);
 	env = check_args(ac, av);
+	init_forks(env);
+	init_philos(env);
+	manage_threads(env);
+	return (0);
 }
