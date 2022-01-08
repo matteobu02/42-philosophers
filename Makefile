@@ -9,7 +9,7 @@ OBJS	=	$(SRCS:.c=.o)
 
 CC		=	gcc
 
-CFLAGS	=	-Wall -Wextra -Werror -pthread -g -fsanitize=thread
+CFLAGS	=	-Wall -Wextra -Werror -pthread -fsanitize=address
 
 
 all:		$(NAME)

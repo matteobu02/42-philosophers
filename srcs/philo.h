@@ -6,7 +6,7 @@
 /*   By: mbucci <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 12:18:29 by mbucci            #+#    #+#             */
-/*   Updated: 2022/01/07 23:46:10 by mbucci           ###   ########.fr       */
+/*   Updated: 2022/01/08 14:31:40 by mbucci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ typedef struct s_philo
 	pthread_t		thread_id;
 	pthread_mutex_t	*rfork;
 	pthread_mutex_t	*lfork;
-	pthread_mutex_t	write;
 	pthread_mutex_t	eat;
 	pthread_mutex_t	sleep;
 	struct s_data	*env;
@@ -43,6 +42,7 @@ typedef struct s_data
 	int				cycles;
 	t_philo			*philos;
 	pthread_mutex_t	*forks;
+	pthread_mutex_t	write;
 }	t_data;
 
 void	free_error(t_data *env);

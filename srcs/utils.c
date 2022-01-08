@@ -6,7 +6,7 @@
 /*   By: mbucci <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 12:50:57 by mbucci            #+#    #+#             */
-/*   Updated: 2022/01/07 23:43:17 by mbucci           ###   ########.fr       */
+/*   Updated: 2022/01/08 14:18:34 by mbucci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,38 @@
 
 void	free_error(t_data *env)
 {
+	int	i;
+
+	printf("error\n");
+	i = -1;
+	if (env->philos)
+	{
+		while (++i < env->nbr)
+		{
+			if (env->philos[i].str_id)
+				free(env->philos[i].str_id);
+			env->philos[i].str_id = NULL;
+			env->philos[i].rfork = NULL;
+			env->philos[i].lfork = NULL;
+			env->philos[i].env = NULL;
+			pthread_mutex_destroy(&(env->philos[i].sleep));
+			pthread_mutex_destroy(&(env->philos[i].eat));
+		}
+		free(env->philos);
+	}
+	env->philos = NULL;
+	i = -1;
+	if (env->forks)
+	{
+		while (++i < env->nbr)
+			if (pthread_mutex_destroy(&(env->forks[i])))
+				free_error(env);
+		free(env->forks);
+	}
+	env->forks = NULL;
 	free(env);
 	env = NULL;
 	exit(EXIT_FAILURE);
-}
-
-void	free_all(t_data *env)
-{
-	int	i;
-
-	i = -1;
-	while (++i < env->nbr)
-	{
-		free(env->philos[i].str_id);
-		env->philos[i].str_id = NULL;
-		free(env->philos);
-		free(env->forks);
-	}
 }
 
 int	ft_atoi(char *s, t_data *env)
@@ -39,7 +54,7 @@ int	ft_atoi(char *s, t_data *env)
 	int	i;
 
 	i = 0;
-	while (s[i] >= 9 && s[i] <= 13)
+	while ((s[i] >= 9 && s[i] <= 13) || s[i] == 32)
 		i++;
 	if (s[i] == '+')
 		i++;
