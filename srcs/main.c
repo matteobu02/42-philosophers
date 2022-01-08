@@ -6,7 +6,7 @@
 /*   By: mbucci <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 12:16:17 by mbucci            #+#    #+#             */
-/*   Updated: 2022/01/08 14:18:16 by mbucci           ###   ########.fr       */
+/*   Updated: 2022/01/08 15:35:45 by mbucci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,8 @@ int	main(int ac, char **av)
 		return (0);
 	}
 	env = check_args(ac, av);
-	printf("args OK\n");
 	init_forks(env);
-	printf("forks OK\n");
 	init_philos(env);
-	printf("philos OK\n");
 	manage_threads(env);
 	return (0);
 }

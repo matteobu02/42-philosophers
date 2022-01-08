@@ -6,7 +6,7 @@
 /*   By: mbucci <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 19:15:06 by mbucci            #+#    #+#             */
-/*   Updated: 2022/01/08 14:35:25 by mbucci           ###   ########.fr       */
+/*   Updated: 2022/01/08 15:46:53 by mbucci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ void	init_philos(t_data *env)
 			free_error(env);
 		if (pthread_mutex_init(&(phi[i].sleep), NULL))
 			free_error(env);
-		printf("%d\n", phi[i].thread_id);
 	}
 }
 
@@ -58,7 +57,6 @@ void	*start_routine(void *param)
 	t_philo	*philo;
 
 	philo = (t_philo *)param;
-	printf("%d created", philo->id);
 	printf("thread created\n");
 	sleep(1);
 	printf("good bye\n");
@@ -73,9 +71,11 @@ void	manage_threads(t_data *env)
 	if (pthread_mutex_init(&(env->write), NULL))
 		free_error(env);
 	while (++i < env->nbr)
+	{
 		if (pthread_create(&env->philos[i].thread_id,
 				NULL, start_routine, &(env->philos[i])))
 			free_error(env);
+	}
 	i = -1;
 	while (++i < env->nbr)
 		if (pthread_join(env->philos[i].thread_id, NULL))

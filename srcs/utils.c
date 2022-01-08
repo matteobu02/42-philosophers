@@ -6,7 +6,7 @@
 /*   By: mbucci <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 12:50:57 by mbucci            #+#    #+#             */
-/*   Updated: 2022/01/08 14:18:34 by mbucci           ###   ########.fr       */
+/*   Updated: 2022/01/08 15:45:39 by mbucci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,14 @@ int	ft_atoi(char *s, t_data *env)
 		i++;
 	if (s[i] == '+')
 		i++;
-	else if (s[i++] == '-')
+	else if (s[i] == '-')
 		free_error(env);
 	n = 0;
 	while (s[i])
 	{
 		if (s[i] > 57 || s[i] < 48)
 			free_error(env);
-		n = n * 10 + (s[i++] - 48);
+		n = (n * 10) + (s[i++] - 48);
 		if (n > 2147483647)
 			free_error(env);
 	}
