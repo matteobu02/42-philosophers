@@ -6,7 +6,7 @@
 /*   By: mbucci <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 12:16:17 by mbucci            #+#    #+#             */
-/*   Updated: 2022/01/08 15:35:45 by mbucci           ###   ########.fr       */
+/*   Updated: 2022/01/11 00:45:04 by mbucci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,15 @@ t_data	*check_args(int ac, char **args)
 	env->time_eat = ft_atoi(args[3], env);
 	env->time_sleep = ft_atoi(args[4], env);
 	if (ac == 6)
+	{
 		env->cycles = ft_atoi(args[5], env);
+		if (!env->cycles)
+			free_error(env);
+	}
 	else
 		env->cycles = 0;
+	if (pthread_mutex_init(&(env->write), NULL))
+		free_error(env);
 	return (env);
 }
 

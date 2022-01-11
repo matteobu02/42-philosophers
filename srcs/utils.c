@@ -6,7 +6,7 @@
 /*   By: mbucci <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 12:50:57 by mbucci            #+#    #+#             */
-/*   Updated: 2022/01/08 15:45:39 by mbucci           ###   ########.fr       */
+/*   Updated: 2022/01/11 00:21:26 by mbucci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,9 @@ void	free_error(t_data *env)
 	{
 		while (++i < env->nbr)
 		{
-			if (env->philos[i].str_id)
-				free(env->philos[i].str_id);
-			env->philos[i].str_id = NULL;
 			env->philos[i].rfork = NULL;
 			env->philos[i].lfork = NULL;
 			env->philos[i].env = NULL;
-			pthread_mutex_destroy(&(env->philos[i].sleep));
-			pthread_mutex_destroy(&(env->philos[i].eat));
 		}
 		free(env->philos);
 	}

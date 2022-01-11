@@ -6,7 +6,7 @@
 /*   By: mbucci <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 19:15:06 by mbucci            #+#    #+#             */
-/*   Updated: 2022/01/08 15:46:53 by mbucci           ###   ########.fr       */
+/*   Updated: 2022/01/11 01:11:22 by mbucci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,17 +38,16 @@ void	init_philos(t_data *env)
 	while (++i < env->nbr)
 	{
 		phi[i].id = i + 1;
-		phi[i].str_id = ft_itoa(i + 1, env);
 		phi[i].rfork = &(env->forks[i]);
 		phi[i].env = env;
+		if (env->cycles)
+			phi[i].meals = 0;
+		else
+			phi[i].meals = -1;
 		if (!i)
 			phi[i].lfork = &(env->forks[env->nbr]);
 		else
 			phi[i].lfork = &(env->forks[i - 1]);
-		if (pthread_mutex_init(&(phi[i].eat), NULL))
-			free_error(env);
-		if (pthread_mutex_init(&(phi[i].sleep), NULL))
-			free_error(env);
 	}
 }
 
@@ -57,9 +56,16 @@ void	*start_routine(void *param)
 	t_philo	*philo;
 
 	philo = (t_philo *)param;
-	printf("thread created\n");
-	sleep(1);
-	printf("good bye\n");
+	while (philo->meals < philo->env->cycles)
+	{
+		philo_eat(philo);
+		if (philo->meals < philo->env->cycles)
+		{
+			print_message(philo, "is sleeping");
+			ft_usleep(philo->env->time_sleep);
+			print_message(philo, "is thinking");
+		}
+	}
 	return (NULL);
 }
 
@@ -68,8 +74,6 @@ void	manage_threads(t_data *env)
 	int		i;
 
 	i = -1;
-	if (pthread_mutex_init(&(env->write), NULL))
-		free_error(env);
 	while (++i < env->nbr)
 	{
 		if (pthread_create(&env->philos[i].thread_id,
@@ -80,6 +84,15 @@ void	manage_threads(t_data *env)
 	while (++i < env->nbr)
 		if (pthread_join(env->philos[i].thread_id, NULL))
 			free_error(env);
+	i = -1;
+	while (++i < env->nbr)
+	{
+		env->philos[i].rfork = NULL;
+		env->philos[i].lfork = NULL;
+		env->philos[i].env = NULL;
+	}
+	free(env->philos);
+	env->philos = NULL;
 	if (pthread_mutex_destroy(&(env->write)))
 		free_error(env);
 	i = -1;
@@ -87,4 +100,7 @@ void	manage_threads(t_data *env)
 		if (pthread_mutex_destroy(&(env->forks[i])))
 			free_error(env);
 	free(env->forks);
+	env->forks = NULL;
+	free(env);
+	env = NULL;
 }

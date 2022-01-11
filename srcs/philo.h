@@ -6,7 +6,7 @@
 /*   By: mbucci <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 12:18:29 by mbucci            #+#    #+#             */
-/*   Updated: 2022/01/08 14:31:40 by mbucci           ###   ########.fr       */
+/*   Updated: 2022/01/11 00:15:33 by mbucci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,10 @@ struct	s_data;
 typedef struct s_philo
 {
 	int				id;
-	char			*str_id;
 	pthread_t		thread_id;
 	pthread_mutex_t	*rfork;
 	pthread_mutex_t	*lfork;
-	pthread_mutex_t	eat;
-	pthread_mutex_t	sleep;
+	int				meals;
 	struct s_data	*env;
 }	t_philo;
 
@@ -52,5 +50,9 @@ char	*ft_itoa(unsigned long n, t_data *env);
 void	init_forks(t_data *env);
 void	init_philos(t_data *env);
 void	manage_threads(t_data *env);
+
+void	ft_usleep(int usec);
+void	print_message(t_philo *philo, char *s);
+void	philo_eat(t_philo *philo);
 
 #endif

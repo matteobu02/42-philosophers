@@ -1,6 +1,7 @@
 NAME	=	philo
 
-SRCS	=	srcs/init.c		\
+SRCS	=	srcs/actions.c	\
+			srcs/init.c		\
 			srcs/main.c		\
 			srcs/utils.c
 
@@ -9,7 +10,7 @@ OBJS	=	$(SRCS:.c=.o)
 
 CC		=	gcc
 
-CFLAGS	=	-Wall -Wextra -Werror -pthread -fsanitize=address
+CFLAGS	=	-Wall -Wextra -Werror -pthread
 
 
 all:		$(NAME)
