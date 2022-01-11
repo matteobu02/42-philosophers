@@ -6,7 +6,7 @@
 /*   By: mbucci <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 19:15:06 by mbucci            #+#    #+#             */
-/*   Updated: 2022/01/11 12:24:26 by mbucci           ###   ########.fr       */
+/*   Updated: 2022/01/11 23:20:54 by mbucci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,8 @@ void	init_forks(t_data *env)
 		free_error(env);
 	i = -1;
 	while (++i < env->nbr)
-	{
 		if (pthread_mutex_init(&(env->forks[i]), NULL))
 			free_error(env);
-		printf("forks[%d] = %p\n", i, &(env->forks[i]));
-	}
 }
 
 void	init_philos(t_data *env)
@@ -47,15 +44,13 @@ void	init_philos(t_data *env)
 			phi[i].meals = 0;
 		else
 			phi[i].meals = -1;
-		if (!i)
-			phi[i].lfork = &(env->forks[env->nbr]);
 		if (env->nbr == 1)
 			phi[i].lfork = NULL;
+		else if (!i)
+			phi[i].lfork = &(env->forks[env->nbr - 1]);
 		else
 			phi[i].lfork = &(env->forks[i - 1]);
 	}
-	if (phi[1].lfork == phi[2].rfork)
-		printf("YES\n");
 }
 
 void	*start_routine(void *param)
@@ -63,8 +58,8 @@ void	*start_routine(void *param)
 	t_philo	*philo;
 
 	philo = (t_philo *)param;
-	printf("env->nbr = %d\n", philo->env->nbr);
-	printf("id = %d\nrfork : %p\nlfork : %p\n", philo->id, philo->rfork, philo->lfork);
+	if (philo->id % 2 != 0)
+		ft_usleep(2);
 	while (philo->meals < philo->env->cycles)
 	{
 		philo_eat(philo);
@@ -82,6 +77,7 @@ void	manage_threads(t_data *env)
 {
 	int		i;
 
+	env->start = current_time();
 	i = -1;
 	while (++i < env->nbr)
 	{

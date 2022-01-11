@@ -6,7 +6,7 @@
 /*   By: mbucci <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 12:18:29 by mbucci            #+#    #+#             */
-/*   Updated: 2022/01/11 00:15:33 by mbucci           ###   ########.fr       */
+/*   Updated: 2022/01/11 21:34:51 by mbucci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,18 +41,20 @@ typedef struct s_data
 	t_philo			*philos;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	write;
+	unsigned long	start;
 }	t_data;
 
-void	free_error(t_data *env);
-int		ft_atoi(char *s, t_data *env);
-char	*ft_itoa(unsigned long n, t_data *env);
+void			free_error(t_data *env);
+int				ft_atoi(char *s, t_data *env);
+char			*ft_itoa(unsigned long n, t_data *env);
+unsigned long	current_time(void);
 
-void	init_forks(t_data *env);
-void	init_philos(t_data *env);
-void	manage_threads(t_data *env);
+void			init_forks(t_data *env);
+void			init_philos(t_data *env);
+void			manage_threads(t_data *env);
 
-void	ft_usleep(int usec);
-void	print_message(t_philo *philo, char *s);
-void	philo_eat(t_philo *philo);
+void			ft_usleep(int msec);
+void			print_message(t_philo *philo, char *s);
+void			philo_eat(t_philo *philo);
 
 #endif

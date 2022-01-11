@@ -6,25 +6,28 @@
 /*   By: mbucci <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 11:38:17 by mbucci            #+#    #+#             */
-/*   Updated: 2022/01/11 11:36:56 by mbucci           ###   ########.fr       */
+/*   Updated: 2022/01/11 22:02:49 by mbucci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	ft_usleep(int usec)
+void	ft_usleep(int msec)
 {
-	int	i;
+	unsigned long	t;
 
-	i = -1;
-	while (++i < usec / 2)
-		usleep(500);
+	t = current_time();
+	while (current_time() < t + msec)
+		usleep(10);
 }
 
 void	print_message(t_philo *philo, char *s)
 {
+	unsigned long	t;
+
+	t = current_time() - philo->env->start;
 	pthread_mutex_lock(&(philo->env->write));
-	printf("time %d %s\n", philo->id, s);
+	printf("%lu %d %s\n", t, philo->id, s);
 	pthread_mutex_unlock(&(philo->env->write));
 }
 

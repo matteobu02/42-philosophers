@@ -6,7 +6,7 @@
 /*   By: mbucci <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 12:50:57 by mbucci            #+#    #+#             */
-/*   Updated: 2022/01/11 00:21:26 by mbucci           ###   ########.fr       */
+/*   Updated: 2022/01/11 21:11:30 by mbucci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,35 +67,9 @@ int	ft_atoi(char *s, t_data *env)
 	return (n);
 }
 
-int	get_len_int(unsigned long n)
+unsigned long	current_time(void)
 {
-	int	ret;
-
-	ret = 0;
-	if (!n)
-		return (1);
-	while (n)
-	{
-		n /= 10;
-		ret++;
-	}
-	return (ret);
-}
-
-char	*ft_itoa(unsigned long n, t_data *env)
-{
-	char	*s;
-	int		len;
-
-	len = get_len_int(n);
-	s = (char *)malloc(len + 1);
-	if (!s)
-		free_error(env);
-	s[len--] = 0;
-	while (n)
-	{
-		s[len--] = n % 10 + 48;
-		n /= 10;
-	}
-	return (s);
+	struct timeval	t;
+	gettimeofday(&t, NULL);
+	return (1000 * t.tv_sec + t.tv_usec / 1000);
 }
