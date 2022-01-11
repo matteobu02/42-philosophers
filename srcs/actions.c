@@ -6,7 +6,7 @@
 /*   By: mbucci <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 11:38:17 by mbucci            #+#    #+#             */
-/*   Updated: 2022/01/11 00:20:02 by mbucci           ###   ########.fr       */
+/*   Updated: 2022/01/11 11:36:56 by mbucci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,15 @@ void	philo_eat(t_philo *philo)
 {
 	pthread_mutex_lock(philo->rfork);
 	print_message(philo, "has taken a fork");
-	pthread_mutex_lock(philo->lfork);
-	print_message(philo, "has taken a fork");
-	print_message(philo, "is eating");
-	usleep(philo->env->time_eat);
+	if (philo->lfork)
+	{
+		pthread_mutex_lock(philo->lfork);
+		print_message(philo, "has taken a fork");
+		print_message(philo, "is eating");
+		ft_usleep(philo->env->time_eat);
+		pthread_mutex_unlock(philo->lfork);
+		if (philo->env->cycles)
+			philo->meals += 1;
+	}
 	pthread_mutex_unlock(philo->rfork);
-	pthread_mutex_unlock(philo->lfork);
-	if (philo->env->cycles)
-		philo->meals += 1;
 }
