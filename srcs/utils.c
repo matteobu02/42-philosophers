@@ -6,7 +6,7 @@
 /*   By: mbucci <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 12:50:57 by mbucci            #+#    #+#             */
-/*   Updated: 2022/01/11 21:11:30 by mbucci           ###   ########.fr       */
+/*   Updated: 2022/01/12 13:32:35 by mbucci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,27 +16,20 @@ void	free_error(t_data *env)
 {
 	int	i;
 
-	printf("error\n");
 	i = -1;
-	if (env->philos)
+	while (env->philos && ++i < env->nbr)
 	{
-		while (++i < env->nbr)
-		{
-			env->philos[i].rfork = NULL;
-			env->philos[i].lfork = NULL;
-			env->philos[i].env = NULL;
-		}
-		free(env->philos);
+		env->philos[i].rfork = NULL;
+		env->philos[i].lfork = NULL;
+		env->philos[i].env = NULL;
 	}
+	free(env->philos);
 	env->philos = NULL;
 	i = -1;
-	if (env->forks)
-	{
-		while (++i < env->nbr)
-			if (pthread_mutex_destroy(&(env->forks[i])))
-				free_error(env);
-		free(env->forks);
-	}
+	while (env->forks && ++i < env->nbr)
+		if (pthread_mutex_destroy(&(env->forks[i])))
+			free_error(env);
+	free(env->forks);
 	env->forks = NULL;
 	free(env);
 	env = NULL;
@@ -70,6 +63,7 @@ int	ft_atoi(char *s, t_data *env)
 unsigned long	current_time(void)
 {
 	struct timeval	t;
+
 	gettimeofday(&t, NULL);
 	return (1000 * t.tv_sec + t.tv_usec / 1000);
 }

@@ -6,7 +6,7 @@
 /*   By: mbucci <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 12:16:17 by mbucci            #+#    #+#             */
-/*   Updated: 2022/01/11 00:45:04 by mbucci           ###   ########.fr       */
+/*   Updated: 2022/01/12 13:12:18 by mbucci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,6 @@ int	main(int ac, char **av)
 	init_forks(env);
 	init_philos(env);
 	manage_threads(env);
+	exit_program(env);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: mbucci <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 19:15:06 by mbucci            #+#    #+#             */
-/*   Updated: 2022/01/11 23:20:54 by mbucci           ###   ########.fr       */
+/*   Updated: 2022/01/12 16:31:10 by mbucci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,16 +59,14 @@ void	*start_routine(void *param)
 
 	philo = (t_philo *)param;
 	if (philo->id % 2 != 0)
-		ft_usleep(2);
-	while (philo->meals < philo->env->cycles)
+		ft_usleep(1);
+	while (philo->meals < philo->env->cycles && philo->env->stop)
 	{
 		philo_eat(philo);
+		print_message(philo, "is sleeping");
+		ft_usleep(philo->env->time_sleep);
 		if (philo->meals < philo->env->cycles)
-		{
-			print_message(philo, "is sleeping");
-			ft_usleep(philo->env->time_sleep);
 			print_message(philo, "is thinking");
-		}
 	}
 	return (NULL);
 }
@@ -78,17 +76,32 @@ void	manage_threads(t_data *env)
 	int		i;
 
 	env->start = current_time();
+	env->stop = 1;
 	i = -1;
 	while (++i < env->nbr)
-	{
 		if (pthread_create(&env->philos[i].thread_id,
 				NULL, start_routine, &(env->philos[i])))
 			free_error(env);
-	}
+	/*while (env->stop)
+	{
+		i = -1;
+		while (++i < env->nbr)
+			if (current_time() - env->philos[i].last_meal > env->time_die)
+			{
+				env->stop = 0;
+				break ;
+			}
+	}*/
 	i = -1;
 	while (++i < env->nbr)
 		if (pthread_join(env->philos[i].thread_id, NULL))
 			free_error(env);
+}
+
+void	exit_program(t_data *env)
+{
+	int	i;
+
 	i = -1;
 	while (++i < env->nbr)
 	{
@@ -108,4 +121,5 @@ void	manage_threads(t_data *env)
 	env->forks = NULL;
 	free(env);
 	env = NULL;
+	exit(0);
 }

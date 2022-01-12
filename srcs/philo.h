@@ -6,7 +6,7 @@
 /*   By: mbucci <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 12:18:29 by mbucci            #+#    #+#             */
-/*   Updated: 2022/01/11 21:34:51 by mbucci           ###   ########.fr       */
+/*   Updated: 2022/01/12 13:14:16 by mbucci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,18 @@ typedef struct s_philo
 	pthread_mutex_t	*rfork;
 	pthread_mutex_t	*lfork;
 	int				meals;
+	unsigned long	last_meal;
 	struct s_data	*env;
 }	t_philo;
 
 typedef struct s_data
 {
 	int				nbr;
-	int				time_die;
+	unsigned int	time_die;
 	int				time_eat;
 	int				time_sleep;
 	int				cycles;
+	int				stop;
 	t_philo			*philos;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	write;
@@ -52,6 +54,7 @@ unsigned long	current_time(void);
 void			init_forks(t_data *env);
 void			init_philos(t_data *env);
 void			manage_threads(t_data *env);
+void			exit_program(t_data *env);
 
 void			ft_usleep(int msec);
 void			print_message(t_philo *philo, char *s);
