@@ -6,7 +6,7 @@
 /*   By: mbucci <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 12:16:17 by mbucci            #+#    #+#             */
-/*   Updated: 2022/01/18 13:17:38 by mbucci           ###   ########.fr       */
+/*   Updated: 2022/01/18 15:59:14 by mbucci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ t_data	*check_args(int ac, char **args)
 		env->cycles = 0;
 	if (pthread_mutex_init(&(env->write), NULL))
 		free_error(env);
+	if (pthread_mutex_init(&(env->eat), NULL))
+		free_error(env);
 	env->full_philos = 0;
 	return (env);
 }
@@ -49,6 +51,8 @@ void	exit_program(t_data *env)
 	free(env->philos);
 	env->philos = NULL;
 	if (pthread_mutex_destroy(&(env->write)))
+		free_error(env);
+	if (pthread_mutex_destroy(&(env->eat)))
 		free_error(env);
 	i = -1;
 	while (++i < env->nbr)

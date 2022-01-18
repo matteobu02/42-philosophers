@@ -6,7 +6,7 @@
 /*   By: mbucci <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 19:15:06 by mbucci            #+#    #+#             */
-/*   Updated: 2022/01/18 12:58:21 by mbucci           ###   ########.fr       */
+/*   Updated: 2022/01/18 17:02:34 by mbucci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,12 +85,16 @@ void	monitor_threads(t_data *env)
 		i = -1;
 		while (++i < env->nbr)
 		{
+			pthread_mutex_lock(&(env->eat));
 			if (current_time() - env->philos[i].last_meal > env->time_die)
 			{
 				print_message(&(env->philos[i]), "died");
+				pthread_mutex_lock(&(env->write));
 				env->stop = 1;
-				break ;
 			}
+			pthread_mutex_unlock(&(env->eat));
+			if (env->stop)
+				break ;
 			if (env->full_philos == env->nbr)
 			{
 				env->stop = 1;
@@ -112,6 +116,7 @@ void	manage_threads(t_data *env)
 				NULL, start_routine, &(env->philos[i])))
 			free_error(env);
 	monitor_threads(env);
+	pthread_mutex_unlock(&(env->write));
 	i = -1;
 	while (++i < env->nbr)
 		if (pthread_join(env->philos[i].thread_id, NULL))
