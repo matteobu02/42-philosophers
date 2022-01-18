@@ -6,7 +6,7 @@
 /*   By: mbucci <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 11:38:17 by mbucci            #+#    #+#             */
-/*   Updated: 2022/01/12 14:02:11 by mbucci           ###   ########.fr       */
+/*   Updated: 2022/01/18 13:17:07 by mbucci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ void	print_message(t_philo *philo, char *s)
 {
 	unsigned long	t;
 
+	if (philo->env->stop)
+		return ;
 	t = current_time() - philo->env->start;
 	pthread_mutex_lock(&(philo->env->write));
 	printf("%lu %d %s\n", t, philo->id, s);
@@ -33,18 +35,19 @@ void	print_message(t_philo *philo, char *s)
 
 void	philo_eat(t_philo *philo)
 {
+	t_data	*env;
+
+	env = philo->env;
 	pthread_mutex_lock(philo->rfork);
 	print_message(philo, "has taken a fork");
-	if (philo->lfork)
-	{
-		pthread_mutex_lock(philo->lfork);
-		print_message(philo, "has taken a fork");
-		print_message(philo, "is eating");
-		philo->last_meal = current_time();
-		ft_usleep(philo->env->time_eat);
-		pthread_mutex_unlock(philo->lfork);
-		if (philo->env->cycles)
-			philo->meals += 1;
-	}
+	pthread_mutex_lock(philo->lfork);
+	print_message(philo, "has taken a fork");
+	print_message(philo, "is eating");
+	philo->last_meal = current_time();
+	ft_usleep(env->time_eat);
+	pthread_mutex_unlock(philo->lfork);
 	pthread_mutex_unlock(philo->rfork);
+	philo->meals += 1;
+	if (philo->meals == philo->env->cycles)
+		philo->env->full_philos += 1;
 }

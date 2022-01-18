@@ -6,7 +6,7 @@
 /*   By: mbucci <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 12:18:29 by mbucci            #+#    #+#             */
-/*   Updated: 2022/01/12 13:14:16 by mbucci           ###   ########.fr       */
+/*   Updated: 2022/01/17 20:08:19 by mbucci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct s_data
 	int				time_eat;
 	int				time_sleep;
 	int				cycles;
+	int				full_philos;
 	int				stop;
 	t_philo			*philos;
 	pthread_mutex_t	*forks;

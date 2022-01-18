@@ -6,7 +6,7 @@
 /*   By: mbucci <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 12:50:57 by mbucci            #+#    #+#             */
-/*   Updated: 2022/01/12 13:32:35 by mbucci           ###   ########.fr       */
+/*   Updated: 2022/01/18 13:06:37 by mbucci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,7 @@ void	free_error(t_data *env)
 
 	i = -1;
 	while (env->philos && ++i < env->nbr)
-	{
-		env->philos[i].rfork = NULL;
-		env->philos[i].lfork = NULL;
 		env->philos[i].env = NULL;
-	}
 	free(env->philos);
 	env->philos = NULL;
 	i = -1;
@@ -57,6 +53,8 @@ int	ft_atoi(char *s, t_data *env)
 		if (n > 2147483647)
 			free_error(env);
 	}
+	if (!n)
+		free_error(env);
 	return (n);
 }
 

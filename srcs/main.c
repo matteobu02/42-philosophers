@@ -6,7 +6,7 @@
 /*   By: mbucci <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 12:16:17 by mbucci            #+#    #+#             */
-/*   Updated: 2022/01/12 13:12:18 by mbucci           ###   ########.fr       */
+/*   Updated: 2022/01/18 13:17:38 by mbucci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,39 @@ t_data	*check_args(int ac, char **args)
 	env->time_eat = ft_atoi(args[3], env);
 	env->time_sleep = ft_atoi(args[4], env);
 	if (ac == 6)
-	{
 		env->cycles = ft_atoi(args[5], env);
-		if (!env->cycles)
-			free_error(env);
-	}
 	else
 		env->cycles = 0;
 	if (pthread_mutex_init(&(env->write), NULL))
 		free_error(env);
+	env->full_philos = 0;
 	return (env);
+}
+
+void	exit_program(t_data *env)
+{
+	int	i;
+
+	i = -1;
+	while (++i < env->nbr)
+	{
+		env->philos[i].rfork = NULL;
+		env->philos[i].lfork = NULL;
+		env->philos[i].env = NULL;
+	}
+	free(env->philos);
+	env->philos = NULL;
+	if (pthread_mutex_destroy(&(env->write)))
+		free_error(env);
+	i = -1;
+	while (++i < env->nbr)
+		if (pthread_mutex_destroy(&(env->forks[i])))
+			free_error(env);
+	free(env->forks);
+	env->forks = NULL;
+	free(env);
+	env = NULL;
+	exit(0);
 }
 
 int	main(int ac, char **av)
