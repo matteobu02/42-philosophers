@@ -6,7 +6,7 @@
 /*   By: mbucci <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 12:16:17 by mbucci            #+#    #+#             */
-/*   Updated: 2022/01/18 15:59:14 by mbucci           ###   ########.fr       */
+/*   Updated: 2022/01/19 20:39:34 by mbucci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_data	*check_args(int ac, char **args)
 		free_error(env);
 	if (pthread_mutex_init(&(env->eat), NULL))
 		free_error(env);
-	env->full_philos = 0;
+	env->full = 0;
 	return (env);
 }
 

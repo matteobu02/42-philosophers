@@ -6,7 +6,7 @@
 /*   By: mbucci <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 19:15:06 by mbucci            #+#    #+#             */
-/*   Updated: 2022/01/18 17:02:34 by mbucci           ###   ########.fr       */
+/*   Updated: 2022/01/19 21:38:36 by mbucci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,15 +62,11 @@ void	*start_routine(void *param)
 	}
 	if (philo->id % 2 != 0)
 		ft_usleep(2);
-	while (!philo->env->stop)
+	while (!philo->env->stop && !philo->env->full)
 	{
 		philo_eat(philo);
-		if (philo->env->stop)
-			return (NULL);
 		print_message(philo, "is sleeping");
 		ft_usleep(philo->env->time_sleep);
-		if (philo->env->stop)
-			return (NULL);
 		print_message(philo, "is thinking");
 	}
 	return (NULL);
@@ -80,10 +76,10 @@ void	monitor_threads(t_data *env)
 {
 	int	i;
 
-	while (!env->stop)
+	while (!env->full)
 	{
 		i = -1;
-		while (++i < env->nbr)
+		while (++i < env->nbr && !env->stop)
 		{
 			pthread_mutex_lock(&(env->eat));
 			if (current_time() - env->philos[i].last_meal > env->time_die)
@@ -93,14 +89,13 @@ void	monitor_threads(t_data *env)
 				env->stop = 1;
 			}
 			pthread_mutex_unlock(&(env->eat));
-			if (env->stop)
-				break ;
-			if (env->full_philos == env->nbr)
-			{
-				env->stop = 1;
-				break ;
-			}
 		}
+		if (env->stop)
+			break ;
+		i = 0;
+		while (env->cycles && i < env->nbr && env->philos[i].meals >= env->cycles)
+			i++;
+		env->full = (i == env->nbr);
 	}
 }
 

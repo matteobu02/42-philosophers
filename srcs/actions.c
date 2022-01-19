@@ -6,7 +6,7 @@
 /*   By: mbucci <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 11:38:17 by mbucci            #+#    #+#             */
-/*   Updated: 2022/01/18 17:01:47 by mbucci           ###   ########.fr       */
+/*   Updated: 2022/01/19 21:36:17 by mbucci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	print_message(t_philo *philo, char *s)
 {
 	unsigned long	t;
 
-	if (philo->env->stop)
+	if (philo->env->stop || philo->env->full)
 		return ;
 	pthread_mutex_lock(&(philo->env->write));
 	t = current_time() - philo->env->start;
@@ -47,9 +47,7 @@ void	philo_eat(t_philo *philo)
 	philo->last_meal = current_time();
 	pthread_mutex_unlock(&(env->eat));
 	ft_usleep(env->time_eat);
-	philo->meals += 1;
-	if (philo->meals == philo->env->cycles)
-		philo->env->full_philos += 1;
+	philo->meals++;
 	pthread_mutex_unlock(philo->rfork);
 	pthread_mutex_unlock(philo->lfork);
 }
