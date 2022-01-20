@@ -6,7 +6,7 @@
 /*   By: mbucci <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 19:15:06 by mbucci            #+#    #+#             */
-/*   Updated: 2022/01/19 21:38:36 by mbucci           ###   ########.fr       */
+/*   Updated: 2022/01/20 13:43:49 by mbucci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,8 @@ void	monitor_threads(t_data *env)
 		if (env->stop)
 			break ;
 		i = 0;
-		while (env->cycles && i < env->nbr && env->philos[i].meals >= env->cycles)
+		while (env->cycles && i < env->nbr
+			&& env->philos[i].meals >= env->cycles)
 			i++;
 		env->full = (i == env->nbr);
 	}
